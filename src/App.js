@@ -43,7 +43,7 @@ class App extends Component {
         toastr.error(`Ocorreu um erro ao tentar inserir a tarefa ${description}: ${e}`);
     }
   }
-  removeTask = async (id: Task._id) => {
+  removeTask = async (id: string) => {
     try {
         this.setState({loading: true, loadingMessage: 'Removendo Tarefa'});
         await Api.removeTask(id);
@@ -55,7 +55,7 @@ class App extends Component {
         toastr.error(`Ocorreu um erro ao tentar remover a tarefa: ${e}`);
     }
   }
-  editTask = async (description: Task.description, done: Task.done, id: Task._id) => {
+  editTask = async (description: string, done: boolean, id: string) => {
     try {
         this.setState({loading: true, loadingMessage: 'Editando Tarefa'});
         await Api.editTask(description, done, id);
@@ -67,7 +67,7 @@ class App extends Component {
         toastr.error(`Ocorreu um erro ao tentar alterar a tarefa: ${e}`);
     }
   }
-  onEditTaskButtonClick = (id: Task._id) => {
+  onEditTaskButtonClick = (id: string) => {
     let taskToEdit = this.state.tasks.find(task => task._id === id);
     this.setState({task: taskToEdit, isEditing: true});
   }

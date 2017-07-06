@@ -6,8 +6,8 @@ import type { Task } from '../flow/types';
 
 type Props = {
     tasks: Array<Task>,
-    onEditTaskButtonClick: (id: Task._id) => void,
-    removeTask: (id: Task._id) => void
+    onEditTaskButtonClick: (id: string) => void,
+    removeTask: (id: string) => void
 }
 
 const List = ({ tasks, onEditTaskButtonClick, removeTask } : Props) => {

@@ -3,16 +3,13 @@ import React, { Component } from 'react';
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 import '../assets/form.css';
+import type { Task } from '../flow/types';
 
 type Props = {
     addTask: (description: string, done: boolean) => void,
     editTask: (description: string, done: boolean, _id: string) => void,
     isEditing: boolean,
-    task: {
-        description: string,
-        done: boolean,
-        _id: string
-    }
+    task: Task
 }
 
 type State = {

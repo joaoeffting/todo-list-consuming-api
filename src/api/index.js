@@ -1,6 +1,5 @@
 //@flow
 import axios from 'axios';
-import type { Task } from '../flow/types';
 
 const ROOT_URL = `https://todowebservice.herokuapp.com/api`;
 
@@ -8,17 +7,17 @@ export const Api = {
     getTasks() {
         return axios.get(`${ROOT_URL}/todos`);
     },
-    postTask(description: Task.description, done: Task.done) {
+    postTask(description: string, done: boolean) {
         let data = {
             description,
             done
         }
         return axios.post(`${ROOT_URL}/todos`, data);
     },
-    removeTask(id: Task._id) {
+    removeTask(id: string) {
         return axios.delete(`${ROOT_URL}/todos/${id}`);
     },
-    editTask(description: Task.description, done: Task.done, id: Task._id) {
+    editTask(description: string, done: boolean, id: string) {
         let data = {
             description,
             done
