@@ -28,19 +28,26 @@ class App extends Component {
     this.loadTasks();
   }
   loadTasks = async () => {
-      this.setState({loading: true, loadingMessage: 'Carregando Tarefas'});
-      let response = await Api.getTasks();
-      this.setState({tasks: response.data, loading: false, loadingMessage: ''});
+      try {
+        this.setState({loading: true, loadingMessage: 'Carregando Tarefas'});
+        let response = await Api.getTasks();
+        this.setState({tasks: response.data, loading: false, loadingMessage: ''});
+    } catch (e) {
+        toastr.error(`Ocorreu um erro ao buscar as tarefas: ${e}`);
+    } finally {
+      this.setState({loading: false, loadingMessage: ''});
+    }
   }
   addTask = async (description: string, done: boolean) => {
     try {
         this.setState({loading: true, loadingMessage: 'Adicionando Tarefa'});
         await Api.postTask(description, done);
-        this.setState({loading: false, loadingMessage: ''});
         this.loadTasks();
         toastr.success(`Tarefa ${description} adicionada com sucesso!`);
     } catch (e) {
         toastr.error(`Ocorreu um erro ao tentar inserir a tarefa ${description}: ${e}`);
+    } finally {
+      this.setState({loading: false, loadingMessage: ''});
     }
   }
   removeTask = async (id: string) => {
@@ -48,23 +55,25 @@ class App extends Component {
         this.setState({loading: true, loadingMessage: 'Removendo Tarefa'});
         await Api.removeTask(id);
         let taskDescription = this.state.tasks.find(task => task._id === id) || {description : ''};
-        this.setState({loading: false, loadingMessage: ''});
         this.loadTasks();
         toastr.success(`Tarefa ${taskDescription.description} removida com sucesso!`);
     } catch (e) {
         toastr.error(`Ocorreu um erro ao tentar remover a tarefa: ${e}`);
+    } finally {
+      this.setState({loading: false, loadingMessage: ''});
     }
   }
   editTask = async (description: string, done: boolean, id: string) => {
     try {
         this.setState({loading: true, loadingMessage: 'Editando Tarefa'});
         await Api.editTask(description, done, id);
-        this.setState({loading: false, loadingMessage: ''});
         this.loadTasks();
         toastr.success(`Tarefa alterada com sucesso!`);
         this.setState({task: {}, isEditing: false})
     } catch (e) {
         toastr.error(`Ocorreu um erro ao tentar alterar a tarefa: ${e}`);
+    } finally {
+      this.setState({loading: false, loadingMessage: ''});
     }
   }
   onEditTaskButtonClick = (id: string) => {
